@@ -21,3 +21,15 @@ steps:
       mavenAuthenticateFeed: false
       effectivePomSkip: false
       sonarQubeRunAnalysis: false
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '**/target/webgoat-2024.2-SNAPSHOT.jar'
+      Contents: '$(Build.ArtifactStagingDirectory)'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'webgoat_artifact'
+      publishLocation: 'Container'
