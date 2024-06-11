@@ -7,22 +7,22 @@ trigger:
 - main
 
 pool:
-  name: webgoat_agent
+  name: 'webgoat'
 
 stages:
-  - stage: 'Build stage'
+  - stage: 
     jobs:
-     - job:
-       steps:
+      - job: build_job
+        steps:
+          - task: Maven@3
+            displayName: 'Maven build succeeded'
+            inputs:
+              mavenPomFile: 'pom.xml'
+              publishJUnitResults: true
+              testResultsFiles: '**/surefire-reports/TEST-*.xml'
+              javaHomeOption: 'JDKVersion'
+              mavenVersionOption: 'Default'
+              mavenAuthenticateFeed: false
+              effectivePomSkip: false
+              sonarQubeRunAnalysis: false
 
-        - task: Maven@4
-          displayName: 'Maven build succeeded'
-          inputs:
-            mavenPomFile: 'pom.xml'
-            publishJUnitResults: true
-            testResultsFiles: '**/surefire-reports/TEST-*.xml'
-            javaHomeOption: 'JDKVersion'
-            mavenVersionOption: 'Default'
-            mavenAuthenticateFeed: false
-            effectivePomSkip: false
-            sonarQubeRunAnalysis: false
