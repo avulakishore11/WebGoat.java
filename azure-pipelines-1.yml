@@ -37,5 +37,5 @@ steps:
       azureSubscription: 'Free Trial(02dd8a70-8b78-44e2-bb9e-56d6e1188f39)'
       appType: 'webAppLinux'
       WebAppName: 'webgaottest'
-      packageForLinux: '$(System.DefaultWorkingDirectory)/webgoat_artifact.zip'
+      packageForLinux: '$(Pipeline.Workspace)/webgoat_artifact/**/*.zip'
       RuntimeStack: 'TOMCAT|10.0-java21'
