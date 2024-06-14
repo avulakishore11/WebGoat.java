@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  name: 'webgoat'
+  vmImage: 'ubuntu-latest'
 
 stages:
   - stage: 
@@ -25,4 +25,13 @@ stages:
               mavenAuthenticateFeed: false
               effectivePomSkip: false
               sonarQubeRunAnalysis: false
+          - task: CopyFiles@2
+            inputs:
+              Contents: '**'
+              TargetFolder: '$(build.artifactstagingdirectory)'
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: 'webgaot'
+              publishLocation: 'Container'
 
