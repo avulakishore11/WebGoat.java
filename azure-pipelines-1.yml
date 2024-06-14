@@ -23,7 +23,7 @@ steps:
 
   - task: CopyFiles@2
     inputs:
-      Contents: '**'
+      Contents: '/home/azureuser/_work/1/s/target/webgoat-2024.2-SNAPSHOT.jar.original'
       TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
   - task: PublishBuildArtifacts@1
