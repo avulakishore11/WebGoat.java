@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: 'windows-latest'
+  name: 'webgoat-agent'
 steps:
 
   - task: Maven@4
