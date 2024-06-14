@@ -1,15 +1,10 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
 pool:
   name: 'webgoat-agent'
-steps:
 
+steps:
   - task: Maven@4
     inputs:
       mavenPomFile: 'pom.xml'
@@ -23,14 +18,25 @@ steps:
 
   - task: CopyFiles@2
     inputs:
-      Contents: '*'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      contents: '**'
+      targetFolder: '$(Build.ArtifactStagingDirectory)/webgoat'
 
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/webgoat'
       ArtifactName: 'webgoat_artifact'
       publishLocation: 'Container'
+
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      artifact: 'webgoat_artifact'
+      path: '$(Pipeline.Workspace)/webgoat_artifact'
+
+  - script: |
+      echo "Contents of $(Pipeline.Workspace)/webgoat_artifact:"
+      ls $(Pipeline.Workspace)/webgoat_artifact
+    displayName: 'List downloaded artifact contents'
+
   - task: AzureRmWebAppDeployment@4
     inputs:
       ConnectionType: 'AzureRM'
@@ -38,4 +44,4 @@ steps:
       appType: 'webAppLinux'
       WebAppName: 'webgaottest'
       packageForLinux: '$(Pipeline.Workspace)/webgoat_artifact/**/*.zip'
-      RuntimeStack: 'TOMCAT|10.0-java21'
+      RuntimeStack: 'TOMCAT|10.0-java11'
