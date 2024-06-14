@@ -7,8 +7,7 @@ trigger:
 - main
 
 pool:
-  name: webgoat
-
+  vmImage: 'ubuntu-latest'
 steps:
 
   - task: Maven@4
@@ -32,3 +31,11 @@ steps:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'webgoat_artifact'
       publishLocation: 'Container'
+  - task: AzureRmWebAppDeployment@4
+    inputs:
+      ConnectionType: 'AzureRM'
+      azureSubscription: 'Free Trial(02dd8a70-8b78-44e2-bb9e-56d6e1188f39)'
+      appType: 'webAppLinux'
+      WebAppName: 'webgaottest'
+      packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+      RuntimeStack: 'TOMCAT|10.0-java21'
