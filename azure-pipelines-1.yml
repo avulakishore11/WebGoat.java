@@ -33,7 +33,6 @@ steps:
       path: '$(Pipeline.Workspace)/webgoat_artifact'
 
   - script: |
-      echo "Contents of $(Pipeline.Workspace)/webgoat_artifact:"
       ls $(Pipeline.Workspace)/webgoat_artifact
     displayName: 'List downloaded artifact contents'
 
@@ -44,4 +43,4 @@ steps:
       appType: 'webAppLinux'
       WebAppName: 'webgaottest'
       packageForLinux: '$(Pipeline.Workspace)/webgoat_artifact/**/*.zip'
-      RuntimeStack: 'TOMCAT|10.0-java11'
+      RuntimeStack: 'TOMCAT|10.0-java21'
