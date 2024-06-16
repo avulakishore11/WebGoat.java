@@ -18,12 +18,12 @@ steps:
 
   - task: CopyFiles@2
     inputs:
-      contents: '**'
-      targetFolder: '$(Build.ArtifactStagingDirectory)/webgoat'
+      contents: '**/target/*.jar'
+      targetFolder: '$(Build.ArtifactStagingDirectory)'
 
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)/webgoat'
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'webgoat_artifact'
       publishLocation: 'Container'
 
