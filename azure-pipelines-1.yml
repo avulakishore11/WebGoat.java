@@ -43,4 +43,4 @@ steps:
       appType: 'webAppLinux'
       WebAppName: 'webgoattest'
       packageForLinux: '$(Pipeline.Workspace)/webgoat_artifact/**/*.jar'
-      RuntimeStack: 'TOMCAT|10.0-java21'
+      RuntimeStack: 'TOMCAT|10.0-java21' ## so, actually there is no java21 i just customized it like in-place of java11 changed it to java21
