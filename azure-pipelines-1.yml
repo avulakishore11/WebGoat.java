@@ -18,7 +18,7 @@ steps:
 
   - task: CopyFiles@2
     inputs:
-      contents: '**/target/*.jar'
+      contents: '**/target/webgoat-2024.2-SNAPSHOT.jar'
       targetFolder: '$(Build.ArtifactStagingDirectory)'
 
   - task: PublishBuildArtifacts@1
@@ -32,15 +32,28 @@ steps:
       artifact: 'webgoat_artifact'
       path: '$(Pipeline.Workspace)/webgoat_artifact'
 
-  - script: |
-      ls $(Pipeline.Workspace)/webgoat_artifact
-    displayName: 'List downloaded artifact contents'
-
-  - task: AzureRmWebAppDeployment@4
+  - task: Docker@2
     inputs:
-      ConnectionType: 'AzureRM'
-      azureSubscription: 'Free Trial(02dd8a70-8b78-44e2-bb9e-56d6e1188f39)'
-      appType: 'webAppLinux'
-      WebAppName: 'webgoattest'
-      packageForLinux: '$(Pipeline.Workspace)/webgoat_artifact/**/*.jar'
-      RuntimeStack: 'TOMCAT|10.0-java21' ## so, actually there is no java21 i just customized it like in-place of java11 changed it to java21
+      containerRegistry: '<your Docker registry service connection>'
+      repository: '$(imageName)'
+      command: 'buildAndPush'
+      Dockerfile: '**/Dockerfile'
+      tags: |
+        $(Build.BuildId)
+
+  
+
+  #- script: |
+      #ls $(Pipeline.Workspace)/webgoat_artifact
+    #displayName: 'List downloaded artifact contents'
+
+  #- task: AzureRmWebAppDeployment@4
+    #inputs:
+      #ConnectionType: 'AzureRM'
+      #azureSubscription: 'Free Trial(02dd8a70-8b78-44e2-bb9e-56d6e1188f39)'
+      #appType: 'webAppLinux'
+      #WebAppName: 'webgoattest'
+      #packageForLinux: '$(Pipeline.Workspace)/webgoat_artifact/**/*.jar'
+      #RuntimeStack: 'TOMCAT|10.0-java21' ## so, actually there is no java21 i just customized it like in-place of java11 changed it to java21
+
+
