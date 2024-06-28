@@ -3,15 +3,28 @@ FROM docker.io/maven:3.9.8-eclipse-temurin-21
 WORKDIR /app
 
 COPY . .
-COPY . .
+
 
 RUN mvn clean package
 
-# Copy the JAR file from the builder stage
-FROM openjdk:21-slim
+# Stage 2: Create the image for the application
+FROM eclipse-temurin:21-jre-jammy
 
-WORKDIR /app
+# Set the working directory
+WORKDIR /home/azureuser
 
-COPY --from=builder /app/target/*.jar .
+# Set permissions for the azureuser
+RUN chgrp -R 0 /home/azureuser && \
+    chmod -R g=u /home/azureuser
 
-CMD ["java", "-jar", "*.jar"]
+# Copy the jar file from the build stage
+COPY --from=builder /app/target/webgoat-*.jar /home/azureuser/webgoat.jar
+
+# Change to the azureuser
+USER azureuser
+
+# Expose the application port
+EXPOSE 8080
+
+# Run the application
+CMD ["java", "-jar", "/home/azureuser/webgoat.jar"]
