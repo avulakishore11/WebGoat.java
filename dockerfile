@@ -2,8 +2,8 @@ FROM docker.io/maven:3.9.8-eclipse-temurin-21
 
 WORKDIR /app
 
-COPY WebGoat.java/pom.xml .
-COPY WebGoat.java/src .
+COPY . .
+COPY . .
 
 RUN mvn clean package
 
