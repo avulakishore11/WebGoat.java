@@ -1,0 +1,26 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- main
+
+pool:
+  name: 'webgaot-pool'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    steps:
+  
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'webgoat-dcr'
+        repository: 'webgaot-java-repo'
+        command: 'buildAndPush'
+        Dockerfile: '$(Build.SourcesDirectory)/dockerfile'
+
+      
